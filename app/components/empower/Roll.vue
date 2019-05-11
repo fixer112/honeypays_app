@@ -17,25 +17,26 @@
       <StackLayout ~mainContent class="empower">
         <StackLayout>
               <FilterableListpicker ref="list" blur="dark" hintText="Type to filter..." :source="tran_list" @itemTapped="Tapped($event)"></FilterableListpicker>
-              
+              <FilterableListpicker ref="type" blur="dark" hintText="Type to filter..." :source="type_list" @itemTapped="typeTapped($event)"></FilterableListpicker>
+              <FilterableListpicker ref="tenure" blur="dark" hintText="Type to filter..." :source="tenure_list" @itemTapped="tenureTapped($event)"></FilterableListpicker>
               <StackLayout class="input-field" marginBottom="25">
                 <Label text="*Transaction" style="text-align: left;color:#000080" />
                 <TextField class="input" :text="tran" editable="false" @tap="select()" fontSize="18"/>
                 <StackLayout class="hr-light" />
               </StackLayout>
 
-              <!-- <StackLayout class="input-field" marginBottom="25">
-               <Label text="*Subject" class="" style="text-align: left;color:#000080 " />
-                <TextField class="input" autocorrect="false" autocapitalizationType="none" v-model="subject" returnKeyType="next" fontSize="18" :isEnabled="!busy"/>
-                <StackLayout class="hr-light" />
-              </StackLayout> -->
-
               <StackLayout class="input-field" marginBottom="25">
-               <Label text="*Message" class="" style="text-align: left;color:#000080 " />
-                <TextView class="input" autocorrect="false" autocapitalizationType="none" v-model="message" returnKeyType="done" fontSize="18" :isEnabled="!busy"/>
+                <Label text="*Type" style="text-align: left;color:#000080" />
+                <TextField class="input" :text="type_title" editable="false" @tap="typeSelect()" fontSize="18"/>
                 <StackLayout class="hr-light" />
               </StackLayout>
               
+              <StackLayout class="input-field" marginBottom="25">
+                <Label text="*Tenure" style="text-align: left;color:#000080" />
+                <TextField class="input" :text="tenure" editable="false" @tap="tenureSelect()" fontSize="18"/>
+                <StackLayout class="hr-light" />
+              </StackLayout>
+
             </StackLayout>
 
               <StackLayout>
@@ -52,9 +53,6 @@
 import axios from 'axios';
 import Login from './Login';
 import Land from '../LandPage';
-import * as imagepicker from "nativescript-imagepicker";
-import * as bghttp from "nativescript-background-http";
-import * as imagesource from 'image-source';
 export default {
   data () {
     return {
@@ -62,20 +60,62 @@ export default {
       subject:"",
       message:"",
       tran_list:[],
+      tenure:'Select Tenure',
+      type:'',
+      type_title:'Select Title',
+      type_list:[
+          {'title':'One time payment','id':'1'},
+          {'title':'Six time payment','id':'0'}
+      ],
+      tenure_list:[],
       id:'',
       tran:'Select Transaction',
 
     };
+  },
+  watch:{
+    type(n){
+      var list = [
+        {"title": "5"},
+        {"title": "9"},
+        {"title": "18"},
+        {"title": "36"},
+      ];
+      var six = [
+        {"title": "18"},
+        {"title": "36"},
+      ];
+      this.tenure_list = n == 1 ? list : six;
+    }
   },
   methods:{
      select() {
         
         this.$refs.list.nativeView.show();
       },
+      typeSelect() {
+        
+        this.$refs.type.nativeView.show();
+      },
+      tenureSelect() {
+        
+        this.$refs.tenure.nativeView.show();
+      },
     Tapped(args) {
         this.id = args.selectedItem.id;
         this.tran = args.selectedItem.title;
-        console.log(args.selectedItem.id);
+        //console.log(args.selectedItem.id);
+        
+      },
+      typeTapped(args) {
+        this.type = args.selectedItem.id;
+        this.type_title = args.selectedItem.title;
+        //console.log(args.selectedItem.id);
+        
+      },
+      tenureTapped(args) {
+        this.tenure = args.selectedItem.title;
+        //console.log(args.selectedItem.id);
         
       },
       submit(){
@@ -88,8 +128,10 @@ export default {
           if (this.check_tym()) {return}
           this.show();
           this.busy= true;
-          axios.post('https://empower.honeypays.com.ng/cus/refund',{
+          axios.post('https://empower.honeypays.com.ng/cus/roll',{
             tran:this.id,
+            tenure:this.tenure,
+            type:this.type,
             //subject:this.subject,
             //to:"refund@honeypays.com.ng"
           })

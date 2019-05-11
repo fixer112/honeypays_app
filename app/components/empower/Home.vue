@@ -14,70 +14,9 @@
 
     <RadSideDrawer ref="drawer">
       <StackLayout ~drawerContent class="sidedrawer sidedrawer-content">
-        <ScrollView>
-        <StackLayout>
-          
-          <StackLayout class="hr-light"></StackLayout>
-          
-          <GridLayout columns="auto, *" class="sidedrawer-list-item sidedrawer-list-item-active" title="Home">
-            <Image src="~/assets/icons/home.png" class="sidedrawer-icon"/>
-            <!-- <Label row="0" col="0" text="&#xf015;" class="fa sidedrawer-icon" /> -->
-            <Label row="0" col="1" text="Home" class="m-l-20 sidedrawer-item" />
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="History" @tap="onNavigationItemTap('history')">
-            <Image src="~/assets/icons/history.png" class="sidedrawer-icon"/>
-            <Label row="0" col="1" text="History" class="m-l-20 sidedrawer-item"/>
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Edit" @tap="onNavigationItemTap('edit')">
-            <Image src="~/assets/icons/edit.png" class="sidedrawer-icon"/>
-            <Label row="0" col="1" text="Edit" class="m-l-20 sidedrawer-item" />
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Invest" @tap="onNavigationItemTap('invest')">
-            <Image src="~/assets/icons/money.png" class="sidedrawer-icon"/>
-            <Label row="0" col="1" text="Invest" class="m-l-20 sidedrawer-item" />
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Calculator" @tap="onNavigationItemTap('cal')">
-              <Image src="~/assets/icons/cal.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Calculator" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Contact" @tap="onNavigationItemTap('contact')">
-            <Image src="~/assets/icons/contact.png" class="sidedrawer-icon"/>
-            <Label row="0" col="1" text="Contact" class="m-l-20 sidedrawer-item" />
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Refund" @tap="onNavigationItemTap('refund')">
-              <Image src="~/assets/icons/refund.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Refund" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-          <GridLayout v-if="user.mentor!=''" columns="auto, *" class="sidedrawer-list-item" title="Referal" @tap="onNavigationItemTap('referal')">
-            <Image src="~/assets/icons/referal.png" class="sidedrawer-icon"/>
-            <Label row="0" col="1" text="Referal" class="m-l-20 sidedrawer-item" />
-          </GridLayout>
-
-          <StackLayout class="hr-light"></StackLayout>
-
-        </StackLayout>
-      </ScrollView>
+        <!-- <component :is="drawer"></component> -->
+        <Drawer :mentor="mentor"></Drawer>
+      
       </StackLayout>
       <StackLayout ~mainContent class="">
         
@@ -206,50 +145,22 @@
 <script>
 import axios from 'axios';
 import Login from './Login';
+import drawer from './Drawer';
 import Land from '../LandPage';
 import Vue from 'nativescript-vue';
   export default {
+    components:{
+      drawer,
+    },
     data () {
       return {
-        mentor:"",
-        user:"",
-        all:"",
-        tpr:"",
-        ter:"",
+        
 
       };
+      
     },
     methods:{
-      get_user(){
-            if (this.check_con()) {return}
-            if (this.check_tym()) {return}
-            this.show();
-            this.busy= true;/*
-            var token = 'LMlLXEjBehxhbYS6BnBby6nHdwyyTYAraLMnhRxxoIys5TMUXZsDxwEo4Xre';
-            axios.defaults.headers.common['Authorization'] = 'Bearer '+token;*/
-            axios.get('https://empower.honeypays.com.ng/cus')
-            .then(response => {
-              this.hide();
-              this.busy= false;
-              this.user = response.data.user;
-              this.all = response.data.all;
-              this.tpr = response.data.tpr;
-              this.ter =response.data.ter;
-              console.log(response.data);
-              Vue.prototype.$mentor = response.data.user.mentor;
-              this.mentor = this.$mentor;
-              /*this.$navigateTo(Home,{
-              clearHistory:true,
-              //backstackVisible:false,
-            })*/
-            })
-            .catch((error)=>{
-              this.hide();
-              this.busy= false;
-              console.log(error.response.data);
-              this.danger('Error(s)', error);
-            })
-      },
+      
       logout(){
             this.show();
             this.busy= true;

@@ -12,6 +12,7 @@ import * as appSettings from 'tns-core-modules/application-settings';
 import M_Login from './components/mcredit/Login';
 import E_Login from './components/empower/Login';
 import E_Home from './components/empower/Home';
+import drawer from './components/empower/Drawer';
 import E_History from './components/empower/History';
 import E_Edit from './components/empower/Edit';
 import E_Invest from './components/empower/Invest';
@@ -19,6 +20,7 @@ import E_Cal from './components/empower/Calculator';
 import E_Contact from './components/empower/Contact';
 import E_Referal from './components/empower/Referal';
 import E_Refund from './components/empower/Refund';
+import E_Roll from './components/empower/Roll';
 import E_bar from './components/empower/Actionbar';
 import Notify from './components/Notify';
 import {exit} from 'nativescript-exit';
@@ -40,7 +42,7 @@ Vue.registerElement("FilterableListpicker", () => require("nativescript-filterab
 Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer);
 Vue.registerElement('YoutubePlayer', () => require('nativescript-youtubeplayer').YoutubePlayer);
 //Vue.registerElement("exoplayer", () => require("nativescript-exoplayer").Video);
-
+Vue.component('Drawer',drawer);
 //var firebase = require("nativescript-plugin-firebase");
 //var localStorage = require( "nativescript-localstorage" );
 if (!appSettings.getNumber("count")) {appSettings.setNumber("count", 0)}
@@ -170,12 +172,47 @@ Vue.mixin({
       default:"mcredit",
       busy:false,
       back:false,
-      version:"1",
+      version:'',
+      mentor:"",
+        user:"",
+        all:"",
+        tpr:"",
+        ter:"",
 
     }
 },
 
 methods:{
+  get_user(){
+    if (this.check_con()) {return}
+    if (this.check_tym()) {return}
+    this.show();
+    this.busy= true;/*
+    var token = 'LMlLXEjBehxhbYS6BnBby6nHdwyyTYAraLMnhRxxoIys5TMUXZsDxwEo4Xre';
+    axios.defaults.headers.common['Authorization'] = 'Bearer '+token;*/
+    axios.get('https://empower.honeypays.com.ng/cus')
+    .then(response => {
+      this.hide();
+      this.busy= false;
+      this.user = response.data.user;
+      this.all = response.data.all;
+      this.tpr = response.data.tpr;
+      this.ter =response.data.ter;
+      console.log(response.data);
+      Vue.prototype.$mentor = response.data.user.mentor;
+      this.mentor = this.$mentor;
+      /*this.$navigateTo(Home,{
+      clearHistory:true,
+      //backstackVisible:false,
+    })*/
+    })
+    .catch((error)=>{
+      this.hide();
+      this.busy= false;
+      console.log(error.response.data);
+      this.danger('Error(s)', error);
+    })
+},
   get_date(d){
     return new Date(d);
   },
@@ -209,6 +246,9 @@ methods:{
       break;
       case 'refund':
       GO = E_Refund;
+      break;
+      case 'roll':
+      GO = E_Roll;
       break;
     }
 
@@ -307,9 +347,6 @@ check_tym(){
     }else{return false}
     console.log((now - start)/(1000*60));
     //return false;
-},
-goBack() {
-  this.$navigateBack()
 },
 check_con(){
   var t;

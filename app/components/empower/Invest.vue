@@ -12,70 +12,7 @@
 
     <RadSideDrawer ref="drawer">
       <StackLayout ~drawerContent class="sidedrawer sidedrawer-content">
-        <ScrollView>
-          <StackLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Home" @tap="onNavigationItemTap('home')">
-              <Image src="~/assets/icons/home.png" class="sidedrawer-icon"/>
-              <!-- <Label row="0" col="0" text="&#xf015;" class="fa sidedrawer-icon" /> -->
-              <Label row="0" col="1" text="Home" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="History" @tap="onNavigationItemTap('history')">
-              <Image src="~/assets/icons/history.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="History" class="m-l-20 sidedrawer-item"/>
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Edit" @tap="onNavigationItemTap('edit')">
-              <Image src="~/assets/icons/edit.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Edit" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item  sidedrawer-list-item-active" title="Invest">
-              <Image src="~/assets/icons/money.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Invest" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Calculator" @tap="onNavigationItemTap('cal')">
-              <Image src="~/assets/icons/cal.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Calculator" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Contact" @tap="onNavigationItemTap('contact')">
-              <Image src="~/assets/icons/contact.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Contact" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Refund" @tap="onNavigationItemTap('refund')">
-              <Image src="~/assets/icons/refund.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Refund" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-            <GridLayout v-if="mentor!=''" columns="auto, *" class="sidedrawer-list-item" title="Referal" @tap="onNavigationItemTap('referal')">
-              <Image src="~/assets/icons/referal.png" class="sidedrawer-icon"/>
-              <Label row="0" col="1" text="Referal" class="m-l-20 sidedrawer-item" />
-            </GridLayout>
-
-            <StackLayout class="hr-light"></StackLayout>
-
-          </StackLayout>
-        </ScrollView>
+        <Drawer :mentor="mentor"></Drawer>
       </StackLayout>
       <StackLayout ~mainContent class="empower">
         <StackLayout>
