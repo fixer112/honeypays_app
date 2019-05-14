@@ -3,7 +3,7 @@
 
     <ActionBar class="action-bar">
       <NavigationButton icon="res://baseline_menu_white_24" @tap="drawerTap"/>
-      <Label text="Refund" style="text-align: center; font-weight: bold; color: white" />
+      <Label text="Roll Over" style="text-align: center; font-weight: bold; color: white" />
       <ActionItem @tap="logout"
       ios.systemIcon="9" ios.position="left"
       android.systemIcon="ic_lock_power_off" android.position="actionBar" color="#fff"/>

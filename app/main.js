@@ -171,7 +171,7 @@ Vue.mixin({
       info:"",
       default:"mcredit",
       busy:false,
-      back:false,
+      //back:false,
       version:'',
       mentor:"",
         user:"",
@@ -259,7 +259,7 @@ methods:{
   },
   currency(value){
 
-    return 'N'+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    return '$'+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
   },
   show(msg='loading....'){
     var options = {

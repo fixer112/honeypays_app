@@ -4,7 +4,7 @@
           
           <StackLayout class="hr-light"></StackLayout>
           <!-- sidedrawer-list-item-active -->
-          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Home">
+          <GridLayout columns="auto, *" class="sidedrawer-list-item" title="Home" @tap="onNavigationItemTap('home')">
             <Image src="~/assets/icons/home.png" class="sidedrawer-icon"/>
             <!-- <Label row="0" col="0" text="&#xf015;" class="fa sidedrawer-icon" /> -->
             <Label row="0" col="1" text="Home" class="m-l-20 sidedrawer-item" />

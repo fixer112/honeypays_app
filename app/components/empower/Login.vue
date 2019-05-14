@@ -40,7 +40,7 @@
 										</StackLayout>
 
 										<StackLayout v-show="!isLoggingIn" class="input-field" marginBottom="25">
-											<TextField class="input" hint="Mentor dafault 08172303502" keyboardType="number" autocorrect="false" autocapitalizationType="none" v-model="mentor" returnKeyType="done" fontSize="16" :isEnabled="!busy"/>
+											<TextField class="input" hint="Account Manager default 08172303502" keyboardType="number" autocorrect="false" autocapitalizationType="none" v-model="mentor" returnKeyType="done" fontSize="16" :isEnabled="!busy"/>
 											<StackLayout class="hr-light" />
 										</StackLayout>
 
