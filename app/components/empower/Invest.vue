@@ -23,7 +23,7 @@
 
               <StackLayout class="input-field" marginBottom="25">
                <Label text="*Amount" class="" style="text-align: left;color:#000080 " />
-                <TextField class="input" keyboardType="number" autocorrect="false" autocapitalizationType="none" v-model="amount" returnKeyType="done" fontSize="18" :isEnabled="!busy"/>
+                <TextField class="input" keyboardType="phone" autocorrect="false" autocapitalizationType="none" v-model="amount" returnKeyType="done" fontSize="18" :isEnabled="!busy"/>
                 <StackLayout class="hr-light" />
               </StackLayout>
 
@@ -100,9 +100,9 @@ export default {
           {
             return alert('All * fields are reqired');
           }
-          if (this.amount < 5000) {
-            return alert('Amount should be minimum of 5000');
-          }
+          /* if (this.amount > 10 ) {
+            return alert('Minimum amount is 10');
+          } */
         if (this.check_con()) {return}
         if (this.check_tym()) {return}
         this.invest();

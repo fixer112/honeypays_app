@@ -121,7 +121,7 @@
 
         <StackLayout margin="5" borderRadius="10">
           <StackLayout backgroundColor="#fafafa" padding="10">
-            <Label text="Refered by" class="name"></Label>
+            <Label text="Account Manager" class="name"></Label>
             <Label :text="user.referal" style="color: #c40404;text-align: right;" class="desc"></Label>
           </StackLayout>
         </StackLayout>

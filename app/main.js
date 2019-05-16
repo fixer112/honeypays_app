@@ -1,6 +1,6 @@
-import Vue from 'nativescript-vue';
-
-import router from './router';
+import Vue from 'nativescript-vue'
+//var Vue = require('nativescript-vue');
+//var main = require('./components/Main');
 import main from './components/Main';
 
 //import store from './store';
@@ -259,7 +259,8 @@ methods:{
   },
   currency(value){
 
-    return '$'+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    return '$'+value;
+    //+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
   },
   show(msg='loading....'){
     var options = {

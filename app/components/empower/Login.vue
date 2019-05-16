@@ -10,7 +10,7 @@
 							<Image class="logo" src="~/assets/images/honeypays.png" />
 							<Label class="header" text="EMPOWER" />
 						</StackLayout>
-						<StackLayout>
+						<!-- <StackLayout> -->
 							<ScrollView>
 
 
@@ -100,7 +100,7 @@
 								</ScrollView>
 							</StackLayout>
 						</ScrollView>
-      	 			</StackLayout>
+      	 			<!-- </StackLayout> -->
       	
 
       	
