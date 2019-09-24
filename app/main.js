@@ -23,95 +23,116 @@ import E_Refund from './components/empower/Refund';
 import E_Roll from './components/empower/Roll';
 import E_bar from './components/empower/Actionbar';
 import Notify from './components/Notify';
-import {exit} from 'nativescript-exit';
+import {
+  exit
+} from 'nativescript-exit';
 import axios from 'axios';
-import { isAndroid } from 'tns-core-modules/platform'
-import { FilterSelect } from 'nativescript-filter-select';
+import {
+  isAndroid
+} from 'tns-core-modules/platform'
+import {
+  FilterSelect
+} from 'nativescript-filter-select';
 //import { Video } from 'nativescript-videoplayer';
-import firebase from 'nativescript-plugin-firebase';
-import { LocalNotifications } from "nativescript-local-notifications";
+import {
+  LocalNotifications
+} from "nativescript-local-notifications";
 //import { CodePush, SyncStatus } from 'nativescript-code-push';
-import { isIOS } from 'tns-core-modules/platform';
+import {
+  isIOS
+} from 'tns-core-modules/platform';
 import * as appversion from "nativescript-appversion";
+
+import firebase from 'nativescript-plugin-firebase';
 
 Vue.component('Ebar', E_bar);
 Vue.registerElement('FilterSelect', () => FilterSelect);
 //Vue.registerElement('VideoPlayer', () => require('nativescript-videoplayer').Video);
-Vue.registerElement('CardView',() => require('nativescript-cardview').CardView);
+Vue.registerElement('CardView', () => require('nativescript-cardview').CardView);
 Vue.registerElement("FilterableListpicker", () => require("nativescript-filterable-listpicker").FilterableListpicker);
 Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer);
 Vue.registerElement('YoutubePlayer', () => require('nativescript-youtubeplayer').YoutubePlayer);
 //Vue.registerElement("exoplayer", () => require("nativescript-exoplayer").Video);
-Vue.component('Drawer',drawer);
+Vue.component('Drawer', drawer);
 //var firebase = require("nativescript-plugin-firebase");
 //var localStorage = require( "nativescript-localstorage" );
-if (!appSettings.getNumber("count")) {appSettings.setNumber("count", 0)}
-if (!appSettings.getNumber("unread")) {appSettings.setNumber("unread", 0)}
-console.log('count: '+appSettings.getNumber("count"));
-console.log('unread: '+appSettings.getNumber("unread"));
+//var error = firebase.firestore().collection("users").doc("settings");
+
+
+if (!appSettings.getNumber("count")) {
+  appSettings.setNumber("count", 0)
+}
+if (!appSettings.getNumber("unread")) {
+  appSettings.setNumber("unread", 0)
+}
+console.log('count: ' + appSettings.getNumber("count"));
+console.log('unread: ' + appSettings.getNumber("unread"));
 
 
 firebase.init({
+
   // Optionally pass in properties for database, authentication and cloud messaging,
   // see their respective docs.
-   showNotifications: false,
-   //showNotificationsWhenInForeground: true
-  
+  showNotifications: false,
+  //showNotificationsWhenInForeground: true
+
 }).then(
-    function (instance) {
-      console.log("firebase.init done");
-    },
-    function (error) {
-      console.log("firebase.init error: " + error);
-    }
+  function (instance) {
+    console.log("firebase.init done");
+  },
+  function (error) {
+    console.log("firebase.init error: " + error);
+  }
 );
 
+
+
 firebase.addOnMessageReceivedCallback(
-    function(message) {
-      var count = appSettings.getNumber('count');
-      var unread = appSettings.getNumber('unread');
-      appSettings.setNumber('count', count+1);
-      appSettings.setNumber('unread', unread+1);
-      //console.log(appSettings.getNumber('count'));
-      message.data.date = new Date();
-      appSettings.setString(count.toString(), JSON.stringify(message));
+  function (message) {
+    var count = appSettings.getNumber('count');
+    var unread = appSettings.getNumber('unread');
+    appSettings.setNumber('count', count + 1);
+    appSettings.setNumber('unread', unread + 1);
+    //console.log(appSettings.getNumber('count'));
+    message.data.date = new Date();
+    appSettings.setString(count.toString(), JSON.stringify(message));
 
-      //console.log("ID: " + count);
-      console.log("Title: " + message.title);
-      console.log("Body: " + message.body);
-      // if your server passed a custom property called 'foo', then do this:
-      console.log("Data: " + JSON.stringify(message));
+    //console.log("ID: " + count);
+    console.log("Title: " + message.title);
+    console.log("Body: " + message.body);
+    // if your server passed a custom property called 'foo', then do this:
+    console.log("Data: " + JSON.stringify(message));
 
-      LocalNotifications.schedule([{
-    id: count,
-    title: message.data.title,
-    body: message.data.body
-    
-  }]).then(
-      function() {
+    LocalNotifications.schedule([{
+      id: count,
+      title: message.data.title,
+      body: message.data.body
+
+    }]).then(
+      function () {
         console.log("Notification scheduled");
 
       },
-      function(error) {
+      function (error) {
         console.log("scheduling error: " + error);
       }
-  )
+    )
 
-    });
+  });
 
 LocalNotifications.addOnMessageReceivedCallback(
-      function (notification) {
-      
-        alert({
-  title: notification.title,
-  message: notification.body,
-});
-      }
-  ).then(
-      function() {
-        console.log("Listener added");
-      }
-  )
+  function (notification) {
+
+    alert({
+      title: notification.title,
+      message: notification.body,
+    });
+  }
+).then(
+  function () {
+    console.log("Listener added");
+  }
+)
 firebase.subscribeToTopic("global").then(() => console.log("Subscribed to global"));
 /*if (appSettings.getString("email")) {
     var email = 'empower_'+appSettings.getString("email");
@@ -123,19 +144,19 @@ var suspend = 0;
 var resume = 0;
 
 application.on(application.launchEvent, (args) => {
-    appSettings.setNumber("start", 0);
-    appSettings.setString("default", 'mcredit');
-    //axios.defaults.headers.common['version'] = '1.1.3';
+  appSettings.setNumber("start", 0);
+  appSettings.setString("default", 'mcredit');
+  //axios.defaults.headers.common['version'] = '1.1.3';
 });
 
 application.on(application.exitEvent, (args) => {
-   appSettings.setNumber("start", 0);
+  appSettings.setNumber("start", 0);
 });
 
 application.on(application.suspendEvent, (args) => {
-      console.log('suspend');
-       suspend = new Date().getTime();
-    	
+  console.log('suspend');
+  suspend = new Date().getTime();
+
 });
 
 application.on(application.resumeEvent, (args) => {
@@ -143,20 +164,20 @@ application.on(application.resumeEvent, (args) => {
   if (isAndroid) {
     CodePush.sync({ deploymentKey: syncKey });
   }*/
-          
-        resume = new Date().getTime();
-        if (suspend > 0 && (resume-suspend)/(1000*60) > 10) {
-          appSettings.setString("token", '');
-          console.log('timeout');
-          alert('Timeout, please re-login')
-            this.$navigateTo(M_Login,{
-            clearHistory:true,
-          })
-        }
+
+  resume = new Date().getTime();
+  if (suspend > 0 && (resume - suspend) / (1000 * 60) > 10) {
+    appSettings.setString("token", '');
+    console.log('timeout');
+    alert('Timeout, please re-login')
+    this.$navigateTo(M_Login, {
+      clearHistory: true,
+    })
+  }
 });
 
 application.on(application.uncaughtErrorEvent, (args) => {
-     exit();
+  exit();
 });
 
 // Uncomment the following to see NativeScript-Vue output logs
@@ -165,232 +186,245 @@ var loader = new LoadingIndicator();
 
 Vue.config.silent = false;
 Vue.mixin({
- data() {
+  data() {
     return {
       err: "",
-      info:"",
-      default:"mcredit",
-      busy:false,
+      info: "",
+      default: "mcredit",
+      busy: false,
       //back:false,
-      version:'',
-      mentor:"",
-        user:"",
-        all:"",
-        tpr:"",
-        ter:"",
+      version: '',
+      mentor: "",
+      user: "",
+      all: "",
+      tpr: "",
+      ter: "",
+      //error: firebase.firestore().collection("users").doc("settings"),
 
     }
-},
+  },
 
-methods:{
-  get_user(){
-    if (this.check_con()) {return}
-    if (this.check_tym()) {return}
-    this.show();
-    this.busy= true;/*
-    var token = 'LMlLXEjBehxhbYS6BnBby6nHdwyyTYAraLMnhRxxoIys5TMUXZsDxwEo4Xre';
-    axios.defaults.headers.common['Authorization'] = 'Bearer '+token;*/
-    axios.get('https://empower.honeypays.com.ng/cus')
-    .then(response => {
-      this.hide();
-      this.busy= false;
-      this.user = response.data.user;
-      this.all = response.data.all;
-      this.tpr = response.data.tpr;
-      this.ter =response.data.ter;
-      console.log(response.data);
-      Vue.prototype.$mentor = response.data.user.mentor;
-      this.mentor = this.$mentor;
-      /*this.$navigateTo(Home,{
+  methods: {
+    get_user() {
+      if (this.check_con()) {
+        return
+      }
+      if (this.check_tym()) {
+        return
+      }
+      this.show();
+      this.busy = true;
+      /*
+          var token = 'LMlLXEjBehxhbYS6BnBby6nHdwyyTYAraLMnhRxxoIys5TMUXZsDxwEo4Xre';
+          axios.defaults.headers.common['Authorization'] = 'Bearer '+token;*/
+      axios.get('https://empower.honeypays.com.ng/cus')
+        .then(response => {
+          this.hide();
+          this.busy = false;
+          this.user = response.data.user;
+          this.all = response.data.all;
+          this.tpr = response.data.tpr;
+          this.ter = response.data.ter;
+          console.log(response.data);
+          Vue.prototype.$mentor = response.data.user.mentor;
+          this.mentor = this.$mentor;
+          /*this.$navigateTo(Home,{
       clearHistory:true,
       //backstackVisible:false,
     })*/
-    })
-    .catch((error)=>{
-      this.hide();
-      this.busy= false;
-      console.log(error.response.data);
-      this.danger('Error(s)', error);
-    })
-},
-  get_date(d){
-    return new Date(d);
-  },
-  onNavigationItemTap(nav){
-    if (this.check_con()) {return}
-    if (this.check_tym()) {return}
-    
-    console.log(nav);
-    var GO = E_Home;
-    switch (nav) {
-      case 'home':
-      GO = E_Home;
-        break;
-      case 'history':
-      GO = E_History;
-        break;
-      case 'edit':
-      GO = E_Edit;
-      break;
-      case 'invest':
-      GO = E_Invest;
-      break;
-      case 'contact':
-      GO = E_Contact;
-      break;
-      case 'referal':
-      GO = E_Referal;
-      break;
-      case 'cal':
-      GO = E_Cal;
-      break;
-      case 'refund':
-      GO = E_Refund;
-      break;
-      case 'roll':
-      GO = E_Roll;
-      break;
-    }
+        })
+        .catch((error) => {
+          this.hide();
+          this.busy = false;
+          console.log(error.response.data);
+          this.danger('Error(s)', error);
+        })
+    },
+    get_date(d) {
+      return new Date(d);
+    },
+    onNavigationItemTap(nav) {
+      if (this.check_con()) {
+        return
+      }
+      if (this.check_tym()) {
+        return
+      }
 
-      this.$navigateTo(GO,{
-      //clearHistory:true,
-    })
+      console.log(nav);
+      var GO = E_Home;
+      switch (nav) {
+        case 'home':
+          GO = E_Home;
+          break;
+        case 'history':
+          GO = E_History;
+          break;
+        case 'edit':
+          GO = E_Edit;
+          break;
+        case 'invest':
+          GO = E_Invest;
+          break;
+        case 'contact':
+          GO = E_Contact;
+          break;
+        case 'referal':
+          GO = E_Referal;
+          break;
+        case 'cal':
+          GO = E_Cal;
+          break;
+        case 'refund':
+          GO = E_Refund;
+          break;
+        case 'roll':
+          GO = E_Roll;
+          break;
+      }
 
-  },
-  currency(value){
+      this.$navigateTo(GO, {
+        //clearHistory:true,
+      })
 
-    return '$'+value;
-    //+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-  },
-  show(msg='loading....'){
-    var options = {
-      message:msg,
-      android: {
-      color:'blue',
-      //margin: 10,
-      },
-      ios: {
-        color:'blue'
+    },
+    currency(value) {
+
+      return '$' + value;
+      //+parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+    },
+    show(msg = 'loading....') {
+      var options = {
+        message: msg,
+        android: {
+          color: 'blue',
+          //margin: 10,
+        },
+        ios: {
+          color: 'blue'
         }
-    };
-    loader.show(options);
-    
-  },
-  hide(){
-    loader.hide();
-  },
-/* not_back(){
-      
-    application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
-        console.log("Event: " + args.eventName + ", Activity: " + args.activity);
-    });
-  }, */
-errs(error){
-        var err = "";
-                Object.keys(error.errors).forEach( function(key) {
+      };
+      loader.show(options);
+
+    },
+    hide() {
+      loader.hide();
+    },
+    /* not_back(){
+          
+        application.android.on(application.AndroidApplication.activityBackPressedEvent, function (args) {
+            console.log("Event: " + args.eventName + ", Activity: " + args.activity);
+        });
+      }, */
+    errs(error) {
+      var err = "";
+      Object.keys(error.errors).forEach(function (key) {
+        // statements
+        Object.keys(error.errors[key]).forEach(function (e) {
+          err += error.errors[key][e] + '\n';
+        }, this);
+      }, this);
+      const alertOptions = {
+        title: 'error(s)',
+        message: err,
+        okButtonText: "OK",
+      };
+      alert(alertOptions);
+      err = "";
+
+    },
+    danger(title, error) {
+      if (error.response.data.errors) {
+        Object.keys(error.response.data.errors).forEach(function (key) {
           // statements
-          Object.keys(error.errors[key]).forEach( function(e) {
-              err+=error.errors[key][e]+'\n';
+          Object.keys(error.response.data.errors[key]).forEach(function (e) {
+            this.err += error.response.data.errors[key][e] + '\n';
           }, this);
         }, this);
-          const alertOptions = {
-            title: 'error(s)',
-            message: err,
-            okButtonText: "OK",
-          };
-          alert(alertOptions);
-          err="";
-      
-},
-danger(title, error){
-	if (error.response.data.errors) {
-          Object.keys(error.response.data.errors).forEach( function(key) {
-    // statements
-    Object.keys(error.response.data.errors[key]).forEach( function(e) {
-      	this.err+=error.response.data.errors[key][e]+'\n';
-    }, this);
-  }, this);
-        }
-        const alertOptions = {
-        	title: title,
-        	message: this.err,
-        	okButtonText: "OK",
-        };
-        alert(alertOptions);
-        //console.log(this.err);
-        this.err="";
-},
+      }
+      const alertOptions = {
+        title: title,
+        message: this.err,
+        okButtonText: "OK",
+      };
+      alert(alertOptions);
+      //console.log(this.err);
+      this.err = "";
+    },
 
-logout(){
-  this.busy= true;
-  this.check_con()
+    logout() {
+      this.busy = true;
+      this.check_con()
       axios.post('https://mcredit.honeypays.com.ng/logout').then(response => {
-        this.busy= false;
+          this.busy = false;
+          appSettings.setNumber("start", 0);
+          this.$router.push('/mcredit/home');
+        })
+        .catch((error) => {
+          this.busy = false;
+          console.log(error.response.data);
+          this.danger('Error(s)', error);
+        })
+    },
+    check_tym() {
+      var start = appSettings.getNumber("start");
+      var now = new Date().getTime();
+      if (start > 0 && (now - start) / (1000 * 60) > 10) {
         appSettings.setNumber("start", 0);
-        this.$router.push('/mcredit/home');
-      })
-      .catch((error)=>{
-        this.busy= false;
-        console.log(error.response.data);
-        this.danger('Error(s)', error);
-      })
-},
-check_tym(){
-    var start = appSettings.getNumber("start");
-    var now = new Date().getTime();
-    if (start > 0 && (now - start)/(1000*60) > 10) {
-      appSettings.setNumber("start", 0);
-      alert('Session timeout, please re-login');
-        this.$navigateTo(M_Login,{
-        clearHistory:true,
-      })
+        alert('Session timeout, please re-login');
+        this.$navigateTo(M_Login, {
+          clearHistory: true,
+        })
         return true;
-    }else{return false}
-    console.log((now - start)/(1000*60));
-    //return false;
-},
-check_con(){
-  var t;
-    switch (connectivity.getConnectionType()) {
-    case connectivity.connectionType.none:
-        // Denotes no Internet connection.
-        console.log("No connection");
-        this.busy = false;
-       alert("Network Error. Please check your connection");
-        t = true;
-        break;
-    case connectivity.connectionType.wifi:
-        // Denotes a WiFi connection.
-        console.log("WiFi connection");
-        t = false;
-        break;
-    case connectivity.connectionType.mobile:
-        // Denotes a mobile connection, i.e. cellular network or WAN.
-        console.log("Mobile connection");
-        t = false
-        break;
-    default:
-        t = false;
-        break;
-}
-  console.log(t);
-  return t;
-}
-},
-  mounted(){
+      } else {
+        return false
+      }
+      console.log((now - start) / (1000 * 60));
+      //return false;
+    },
+    check_con() {
+      var t;
+      switch (connectivity.getConnectionType()) {
+        case connectivity.connectionType.none:
+          // Denotes no Internet connection.
+          console.log("No connection");
+          this.busy = false;
+          alert("Network Error. Please check your connection");
+          t = true;
+          break;
+        case connectivity.connectionType.wifi:
+          // Denotes a WiFi connection.
+          console.log("WiFi connection");
+          t = false;
+          break;
+        case connectivity.connectionType.mobile:
+          // Denotes a mobile connection, i.e. cellular network or WAN.
+          console.log("Mobile connection");
+          t = false
+          break;
+        default:
+          t = false;
+          break;
+      }
+      console.log(t);
+      return t;
+    }
+  },
+  mounted() {
+
     //if (isAndroid) {
-  /* application.android.on('activityBackPressed', args => {
-    console.log('back pressed');
-    args.cancel = true;
-    ///exit();
-  }); */
-  var _this = this;
-  appversion.getVersionName().then(function(v) {
-    console.log("Your app's version is: " + v);
-    _this.version = v;
-});
-}
- // }
+    /* application.android.on('activityBackPressed', args => {
+      console.log('back pressed');
+      args.cancel = true;
+      ///exit();
+    }); */
+    var _this = this;
+    appversion.getVersionName().then(function (v) {
+      console.log("Your app's version is: " + v);
+      _this.version = v;
+    });
+  }
+  // }
 
 })
 

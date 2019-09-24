@@ -99,6 +99,7 @@ import About from "./About";
 import News from "./News";
 import Notify from "./Notify";
 import Video from "./Video";
+import firebase from "nativescript-plugin-firebase/app";
 import * as appSettings from "tns-core-modules/application-settings";
 //var appversion = require("nativescript-appversion");
 
@@ -106,7 +107,8 @@ export default {
   data() {
     return {
       //version:'',
-      unread: appSettings.getNumber("unread")
+      unread: appSettings.getNumber("unread"),
+      error: {}
     };
   },
   methods: {
@@ -125,7 +127,9 @@ export default {
       });
     },
     login() {
-      return alert("An error as occured");
+      if (this.error) {
+        return alert(this.error.message);
+      }
       this.$navigateTo(Login, {
         //clearHistory:true,
       });
@@ -165,6 +169,19 @@ export default {
     setInterval(function() {
       _this.unread = appSettings.getNumber("unread");
     }, 3000);
+    var firebase = (firebase = require("nativescript-plugin-firebase"));
+    var error = firebase.firestore.collection("users").doc("settings");
+    error.get().then(doc => {
+      if (doc.exists) {
+        //console.log(`Document data: ${JSON.stringify(doc.data())}`);
+        this.error = JSON.parse(JSON.stringify(doc.data()));
+        //console.log(this.error.error);
+      } else {
+        //console.log("No such document!");
+      }
+    });
+    //const firebase = require("nativescript-plugin-firebase");
+
     //this.page();
 
     //console.log('loaded '+args);
