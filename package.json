@@ -14,6 +14,7 @@
     }
   },
   "dependencies": {
+    "@nstudio/nativescript-loading-indicator": "^1.0.0",
     "axios": "^0.18.1",
     "nativescript-appversion": "^1.4.1",
     "nativescript-background-http": "^3.4.0",
@@ -22,7 +23,6 @@
     "nativescript-filter-select": "^1.2.9",
     "nativescript-filterable-listpicker": "^2.2.3",
     "nativescript-imagepicker": "^6.1.0",
-    "nativescript-loading-indicator": "^2.5.1",
     "nativescript-local-notifications": "^3.1.2",
     "nativescript-master-technology": "^1.1.1",
     "nativescript-plugin-firebase": "10.0.0",

@@ -181,7 +181,7 @@ application.on(application.uncaughtErrorEvent, (args) => {
 });
 
 // Uncomment the following to see NativeScript-Vue output logs
-var LoadingIndicator = require("nativescript-loading-indicator").LoadingIndicator;
+var LoadingIndicator = require("@nstudio/nativescript-loading-indicator").LoadingIndicator;
 var loader = new LoadingIndicator();
 
 Vue.config.silent = false;

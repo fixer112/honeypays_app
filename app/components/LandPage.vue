@@ -127,7 +127,7 @@ export default {
       });
     },
     login() {
-      if (this.error) {
+      if (this.error.error == true) {
         return alert(this.error.message);
       }
       this.$navigateTo(Login, {
