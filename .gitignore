@@ -11,6 +11,6 @@ app
 app/components/empower/History.vue
 app/components/empower/Calculator.vue
 app/components/Calculator.vue
-app/components/empower/1History.vue
-app/components/empower/1Calculator.vue
-app/components/1Calculator.vue
+#app/components/empower/1History.vue
+#app/components/empower/1Calculator.vue
+#app/components/1Calculator.vue
