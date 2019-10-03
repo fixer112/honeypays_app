@@ -7,7 +7,7 @@ node_modules
 # NativeScript application
 hooks
 platforms
-app
+#app
 #app/components/empower/History.vue
 #app/components/empower/Calculator.vue
 #app/components/Calculator.vue
